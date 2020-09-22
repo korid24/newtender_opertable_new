@@ -1,0 +1,41 @@
+{% extends 'base_transaction.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+
+
+
+
+
+
+{% block content %}
+  {% if not transactions %}
+    Операций пока нет
+  {% endif %}
+  {% for transaction in transactions %}
+    <div class="card bg-light mt-3 mx-3 w-75">
+      <div class="card-header d-flex justify-content-between">
+        <div class="d-flex flex-column justify-content-center">
+          Внутренний перевод
+        </div>
+        <a href={{transaction.get_absolute_url}} class="btn btn-outline-dark d-flex flex-column justify-content-center">К деталям операции</a>
+      </div>
+      <div class="card-body">
+        <p class="card-text">
+          Со счета {{transaction.donor_user}} в {{transaction.donor_bank}}
+          на счёт {{transaction.recipient_user}} в {{transaction.recipient_bank}}
+          на сумму {{transaction.amount|floatformat:2}} руб.
+          <br>
+          <i>Комментарий: {{transaction.comment}}</i>
+          <br>
+          Дата операции: {{transaction.date}}
+        </p>
+      </div>
+      <div class="card-footer bg-light d-flex justify-content-between">
+        <a href={{transaction.get_update_url}} class="btn btn-info">Изменить операцию</a>
+        <a href={{transaction.get_delete_url}} class="btn btn-danger">Удалить операцию</a>
+      </div>
+    </div>
+    </div>
+  {% endfor %}
+{% endblock %}

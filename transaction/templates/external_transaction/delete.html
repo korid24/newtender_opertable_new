@@ -1,0 +1,17 @@
+{% extends 'external_transaction/details.html' %}
+{% block title %}{{title}}{% endblock %}
+
+{% block details_footer %}
+
+<form class="" method="post" name='delete_transaction' action={{transaction.get_delete_url}} autocomplete="off" method='post'>
+  {% csrf_token %}
+  <fieldset>
+    Удалить данную операцию?
+    <div class="d-flex justify-content-between">
+      <button type="submit" class="btn btn-danger">Да, удалить</button>
+      <a href={{transaction.get_absolute_url}} class="btn btn-outline-secondary">Отмена</a>
+    </div>
+  </fieldset>
+</form>
+
+{% endblock %}

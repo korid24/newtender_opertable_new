@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load poll_extras %}
+
+{% block app_content %}
+
+<div class="container-fluid">
+  {% block button %}
+  <div class="d-flex btn-group">
+   <a href={%url 'external_transaction_create_url'%} class="btn btn-primary btn-lg">Добавить внешнюю операцию</a>
+   <a href={%url 'internal_transaction_create_url'%} class="btn btn-secondary btn-lg">Добавить внутренний перевод</a>
+   </div>
+
+  {% endblock %}
+</div>
+
+{% if request.user.in_stock_total >= 0 %}
+<div class="card text-white bg-success m-3" style="max-width: 50%;">
+  <div class="card-header">На счетах есть деньги</div>
+    <div class="card-body">
+        <h5 class="card-title">Суммарно денег на счетах: {{request.user.in_stock_total|floatformat:2}} руб.</h5>
+{% else %}
+<div class="card text-white bg-danger m-3" style="max-width: 50%;">
+  <div class="card-header">На счетах долг</div>
+    <div class="card-body">
+        <h5 class="card-title">Суммарный долг по счетам: {{request.user.in_stock_total|floatformat:2}} руб.</h5>
+{% endif %}
+    <p class="card-text">
+      В том числе: <br>
+      {% for key, value in request.user.in_stock_by_banks.items %}
+        {% if value >= 0 %}
+          Денег на
+        {% else %}
+          <u><b>Долг</b></u> на
+        {% endif %}
+        {{key}}: {{value|floatformat:2}} руб.<br>
+      {% endfor %}
+    </p>
+  </div>
+</div>
+
+
+{% block content %}{% endblock %}
+
+
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-6">
+      {% block form %}{% endblock %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

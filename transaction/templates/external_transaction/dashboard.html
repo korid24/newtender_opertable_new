@@ -1,0 +1,71 @@
+{% extends 'base_transaction.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+
+{% block content %}
+  {% if not transactions %}
+    Операций пока нет
+  {% endif %}
+  {% for transaction in transactions %}
+    {% if transaction.transaction_type < 3 %}
+      <div class="card border-primary mt-3 mx-3 w-75">
+        <div class="card-header bg-primary border-primary d-flex justify-content-between text-light">
+          <div class="d-flex flex-column justify-content-center">
+            Поступление
+          </div>
+          <a href={{transaction.get_absolute_url}} class="btn btn-outline-light d-flex flex-column justify-content-center">К деталям операции</a>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            Поступление на сумму <span class"to_ls">{{transaction.amount}}</span> руб.
+              на {{transaction.bank|title}}.
+            {% if transaction.transaction_type == 1 %}
+              В том числе налог - <span class"to_ls">{{transaction.tax}}</span> руб. Итого: <span class"to_ls">{{transaction.for_count}}</span> руб.
+            {% else %}
+              без налога
+            {% endif %}
+            <br>
+            <i>Комментарий: {{transaction.comment}}</i>
+            <br>
+            Дата операции: {{transaction.date}}
+          </p>
+        </div>
+        <div class="card-footer border-primary d-flex justify-content-between">
+          <a href='{{transaction.get_update_url}}' class="btn btn-info">Изменить операцию</a>
+          <a href={{transaction.get_delete_url}} class="btn btn-danger">Удалить операцию</a>
+        </div>
+      </div>
+    {% else %}
+
+      <div class="card border-secondary mt-3 mx-3 w-75">
+        <div class="card-header bg-secondary border-secondary d-flex justify-content-between text-light">
+          <div class="d-flex flex-column justify-content-center">
+            Вывод
+          </div>
+          <a href={{transaction.get_absolute_url}} class="btn btn-outline-light d-flex flex-column justify-content-center">К деталям операции</a>
+        </div>
+        <div class="card-body">
+          <p class="card-text">
+            Выведено {{transaction.amount}} руб.
+              через {{transaction.bank|title}}
+            {% if transaction.transaction_type == 3 %}
+              через карту физ.лица. Возможна комиссия за снятие.
+            {% else %}
+              без использования карты физлица. Нет комиссии за снятие, возможна платная платежка
+            {% endif %}
+            <br>
+            <i>Комментарий: {{transaction.comment}}</i>
+            <br>
+            Дата операции: {{transaction.date}}
+          </p>
+        </div>
+        <div class="card-footer border-secondary d-flex justify-content-between">
+          <a href={{transaction.get_update_url}} class="btn btn-info">Изменить операцию</a>
+          <a href={{transaction.get_delete_url}} class="btn btn-danger">Удалить операцию</a>
+        </div>
+      </div>
+
+    {% endif %}
+  {% endfor %}
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'base_transaction.html' %}
+{% block title %}{{title}}{% endblock %}
+
+
+
+{% block button %}
+{% endblock %}
+
+
+
+{% block content %}
+
+    {% if transaction.transaction_type < 3 %}
+      <div class="card border-primary mt-3 mx-3 w-75">
+        <div class="card-header bg-primary border-primary d-flex justify-content-between text-light">
+          <div class="d-flex flex-column justify-content-center">
+            Поступление
+          </div>
+          <a href={% url 'external_transaction_dashboard_url' %} class="btn btn-outline-light d-flex flex-column justify-content-center">К списку операций</a>
+        </div>
+
+    {% else %}
+        <div class="card border-secondary mt-3 mx-3 w-75">
+          <div class="card-header bg-secondary border-secondary d-flex justify-content-between text-light">
+            <div class="d-flex flex-column justify-content-center">
+              Вывод
+            </div>
+            <a href={% url 'external_transaction_dashboard_url' %} class="btn btn-outline-light d-flex flex-column justify-content-center">К списку операций</a>
+          </div>
+
+    {% endif %}
+
+
+        <div class="card-body">
+          <p class="card-text">
+            Автор операции: {{user}}<br>
+            Вид операции:
+            {% if transaction.transaction_type == 1 %}
+            Поступление с налогом
+            {% elif transaction.transaction_type == 2 %}
+            Поступление без налога
+            {% elif transaction.transaction_type == 3 %}
+            Снятие с помощью карты физлица
+            {% else %}
+            Снятие без помощи карты физлица
+            {% endif %}<br>
+            {% if transaction.transaction_type < 3 %}
+            Банк, на котрый были зачислены деньги
+            {% else %}
+            Банк, с которого были списаны деньги
+            {% endif %}
+            : {{transaction.bank|title}}.<br>
+            Сумма: <span class"to_ls">{{transaction.amount}}</span> руб.<br>
+            Налог: <span class"to_ls">{{transaction.tax}}</span> руб.<br>
+            Итого: <span class"to_ls">{{transaction.for_count}}</span> руб.
+            <br>
+            Комментарий: {{transaction.comment}}
+            <br>
+            Дата операции: {{transaction.date}}
+            <br><br>
+            Время создания операции: {{transaction.creation_time}} <br>
+            Время последнего изменения: {{transaction.change_time}}
+          </p>
+        </div>
+
+        {% if transaction.transaction_type < 3 %}
+        <div class="card-footer border-primary d-flex justify-content-between">
+        {% else %}
+        <div class="card-footer border-secondary d-flex justify-content-between">
+        {% endif %}
+        {% block details_footer %}
+          <a href={{transaction.get_update_url}} class="btn btn-info">Изменить операцию</a>
+          <a href={{transaction.get_delete_url}} class="btn btn-danger">Удалить операцию</a>
+        {% endblock %}
+        </div>
+      </div>
+
+{% endblock %}

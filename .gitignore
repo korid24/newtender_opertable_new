@@ -1,0 +1,5 @@
+venv
+**secret.py
+**__pycache__
+**migrations
+**db.sqlite3**

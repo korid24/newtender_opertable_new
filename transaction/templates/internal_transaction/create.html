@@ -1,0 +1,34 @@
+{% extends 'base_transaction.html' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block form %}
+
+<form class="mt-5" method="post" name='crete_transaction' action='{% url 'internal_transaction_create_url' %}' autocomplete="off">
+  {% csrf_token %}
+  <fieldset>
+    <legend>{{form_legend}}</legend>
+    {% for field in form %}
+    <div class="form-group">
+      <label for={{field.id_for_label}}>{{ field.label }}</label>
+
+      {% if field.errors%}
+      <div class="alert alert-danger p-0 m-0">
+        {{ field.errors }}
+      </div>
+      {% endif %}
+
+      {{ field }}
+    </div>
+    {% endfor %}
+    <div class="d-flex justify-content-between">
+      <button type="submit" class="btn btn-success">Создать внутренний перевод</button>
+      <a href={% url 'internal_transaction_dashboard_url' %} class="btn btn-outline-secondary">К списку внутренних переводов</a>
+    </div>
+  </fieldset>
+</form>
+
+{% endblock %}
+
+
+</form>

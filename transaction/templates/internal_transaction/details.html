@@ -1,0 +1,45 @@
+{% extends 'base_transaction.html' %}
+{% block title %}{{title}}{% endblock %}
+
+
+
+{% block button %}
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="card bg-light mt-3 mx-3 w-75">
+  <div class="card-header d-flex justify-content-between">
+    <div class="d-flex flex-column justify-content-center">
+      Внутренний перевод
+    </div>
+    <a href={% url 'internal_transaction_dashboard_url' %} class="btn btn-outline-dark d-flex flex-column justify-content-center">К списку операций</a>
+  </div>
+  <div class="card-body">
+    <p class="card-text">
+      Создатель перевода : {{transaction.author}}<br>
+      Сумма: {{transaction.amount|floatformat:2}} руб.<br><br>
+      Тот, у кого списалисб деньги: {{transaction.donor_user}}<br>
+      Банк спсания: {{transaction.donor_bank}}<br><br>
+      Тот, кому поступили деньги: {{transaction.recipient_user}}<br>
+      Банк поступления: {{transaction.recipient_bank}}<br><br>
+      Сумма {{transaction.amount|floatformat:2}} руб.<br>
+      Комментарий: {{transaction.comment}}<br>
+      Дата проведения операции: {{transaction.date}}
+      <br><br><br>
+      Время создания операции: {{transaction.creation_time}}<br>
+      Время последнего изменения операции: {{transaction.change_time}}
+    </p>
+  </div>
+  <div class="card-footer bg-light d-flex justify-content-between">
+  {% block details_footer %}
+    <a href={{transaction.get_update_url}} class="btn btn-info">Изменить операцию</a>
+    <a href={{transaction.get_delete_url}} class="btn btn-danger">Удалить операцию</a>
+  {% endblock %}
+  </div>
+</div>
+</div>
+
+{% endblock %}
