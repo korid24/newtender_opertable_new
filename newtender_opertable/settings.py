@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+from django.urls import reverse_lazy
 from .secret import HIDEN_SECRET_KEY, HIDEN_DEBUG
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -121,6 +122,8 @@ USE_L10N = True
 USE_TZ = True
 
 USE_THOUSAND_SEPARATOR = True
+
+LOGIN_REDIRECT_URL = reverse_lazy('external_transaction_dashboard_url')
 
 
 # Static files (CSS, JavaScript, Images)

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}
+Войти в систему
+{% endblock %}
+
+{% block app_content %}
+
+<div class="container">
+  <div class="row justify-content-center mt-5 pt-5">
+    <div class="col-6">
+
+      <h3>Вход в систему</h3>
+      <hr>
+      {% if form.errors %}
+      <div class="alert alert-danger p-0 m-0">
+        Введён неправильные адрес электронной почты или пароль. Оба поля могут быть чувствительны к регистру.
+      </div>
+      {% endif %}
+
+      {% if next %}
+      {% if user.is_authenticated %}
+      <p>Для того чтобы увидеть эту страницу войдите под администратором</p>
+        {% else %}
+        <p>Войдите в систему чтобы увидеть эту страницу.</p>
+        {% endif %}
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}" autocomplete="off">
+          {% csrf_token %}
+          {% for field in form %}
+          <div class="form-group">
+            <label for={{field.id_for_label}}>{{ field.label }}</label>
+            {{ field }}
+          </div>
+          {% endfor %}
+          <button type="submit" class='btn btn-primary'>Войти</button>
+        </form>
+
+        {# Assumes you setup the password_reset view in your URLconf #}
+
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

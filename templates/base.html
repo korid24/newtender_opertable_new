@@ -11,16 +11,19 @@
   <body style='background-color:#fcffff'>
 
     <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #bcf7ed;">
+      {% if request.user.is_authenticated %}
       <a class="navbar-brand" href="#">{{request.user.first_name|title}}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href={%url 'external_transaction_dashboard_url'%}>Внешние операции</a>
-          <a class="nav-item nav-link" href={%url 'internal_transaction_dashboard_url'%}>Внутренние переводы</a>
+          <a class="nav-item nav-link {% if 'external' in request.path %}active{% endif %}" href={%url 'external_transaction_dashboard_url'%}>Внешние операции</a>
+          <a class="nav-item nav-link {% if 'internal' in request.path %}active{% endif %}" href={%url 'internal_transaction_dashboard_url'%}>Внутренние переводы</a>
           <a class="nav-item nav-link" href={%url 'statistic_url'%}>Статистика</a></div>
       </div>
+      <a class="btn btn-outline-dark" href="{% url 'logout' %}">Выйти</a>
+      {% endif %}
     </nav>
     {% block app_content %}
 

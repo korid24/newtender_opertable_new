@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect, reverse, get_object_or_404
 
 
 class TransactionDetails:
-    '''Mixin for transaction details views'''
+    '''
+    Mixin for transaction details views
+    '''
     model = None
     template = None
 
@@ -16,7 +18,9 @@ class TransactionDetails:
 
 
 class TransactionDashboard:
-    '''Mixin for transaction dashboards views'''
+    '''
+    Mixin for transaction dashboards views
+    '''
     model = None
     filter_fields = None
     template = None
@@ -34,7 +38,9 @@ class TransactionDashboard:
 
 
 class TransactionCreate:
-    '''Mixin for transaction create views'''
+    '''
+    Mixin for transaction create views
+    '''
     form = None
     template = None
     initial_fields = []
@@ -59,7 +65,9 @@ class TransactionCreate:
 
 
 class TransactionUpdate:
-    '''Mixin for transaction update views'''
+    '''
+    Mixin for transaction update views
+    '''
     form = None
     model = None
     context = None
@@ -86,7 +94,9 @@ class TransactionUpdate:
 
 
 class TransactionDelete:
-    '''Mixin for transaction delete views'''
+    '''
+    Mixin for transaction delete views
+    '''
     model = None
     template = None
     context = None

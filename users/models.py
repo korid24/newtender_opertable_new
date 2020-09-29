@@ -29,18 +29,23 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _('users')
 
     def __str__(self):
-        '''Returns the first_name plus the last_name,
-            with a space in between.'''
+        '''
+        Returns the first_name plus the last_name, with a space in between.
+        '''
         full_name = '{} {}'.format(self.first_name, self.last_name)
         return full_name.strip()
 
     def get_short_name(self):
-        '''Returns the short name for the user.'''
+        '''
+        Returns the short name for the user.
+        '''
         return self.first_name
 
     def in_stock_by_banks(self):
-        '''Returns the current balance by banks,
-        includes external and internal transactions results'''
+        '''
+        Returns the current balance by banks, includes external and internal
+        transactions results
+        '''
         result = {}
         for bank in BANKS:
             amount_in_bank_by_externals = sum(
@@ -57,5 +62,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         return result
 
     def in_stock_total(self):
-        '''Returns the total balance'''
+        '''
+        Returns the total balance
+        '''
         return sum(self.in_stock_by_banks().values())

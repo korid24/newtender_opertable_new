@@ -4,9 +4,13 @@ from .models import Transaction, InternalTransaction
 
 
 class TransactionForm(forms.ModelForm):
-    '''Form for creating and updating transactions'''
+    '''
+    Form for creating and updating external transactions
+    '''
     def clean_amount(self):
-        '''Makes sure that the transaction amount is greater than 0'''
+        '''
+        Makes sure that the transaction amount is greater than 0
+        '''
         new_amount = self.cleaned_data['amount']
         if new_amount <= 0:
             raise ValidationError('Сумма должна быть больше 0')
@@ -39,15 +43,22 @@ class TransactionForm(forms.ModelForm):
 
 
 class InternalTransactionForm(forms.ModelForm):
-    '''Form for creating and updating internal transactions'''
+    '''
+    Form for creating and updating internal transactions
+    '''
     def clean_amount(self):
+        '''
+        Makes sure that the transaction amount is greater than 0
+        '''
         new_amount = self.cleaned_data['amount']
         if new_amount <= 0:
             raise ValidationError('Сумма должна быть больше 0')
         return new_amount
 
     def clean_recipient_bank(self):
-        '''Makes sure the transaction makes sense'''
+        '''
+        Makes sure the transaction makes sense
+        '''
         new_donor_bank = self.cleaned_data.get('donor_bank')
         new_donor_user = self.cleaned_data.get('donor_user')
         new_recipient_bank = self.cleaned_data.get('recipient_bank')

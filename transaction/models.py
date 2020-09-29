@@ -50,14 +50,18 @@ class Transaction(models.Model):
 
     @property
     def tax(self):
-        '''Returns the tax of the transaction'''
+        '''
+        Returns the tax of the transaction
+        '''
         if self.transaction_type == 1:
             return math.ceil(float(self.amount) * 6) / 100
         else:
             return 0
 
     def for_count(self):
-        '''Returns the effect of a transaction on the balance'''
+        '''
+        Returns the effect of a transaction on the balance
+        '''
         if self.transaction_type < 3:
             return float(self.amount) - self.tax
         else:

@@ -1,5 +1,5 @@
 {% extends 'base_transaction.html' %}
-{% block title %}{{title}}{% endblock %}
+{% block title %}Изменить операцию{% endblock %}
 
 {% block form %}
 
@@ -8,7 +8,7 @@
   <fieldset>
     <legend>{{form_legend}}</legend>
 
-    
+
     {% for field in form %}
     <div class="form-group">
       <label for={{field.id_for_label}}>{{ field.label }}</label>
