@@ -14,7 +14,7 @@
 </div>
 
 {% if request.user.in_stock_total >= 0 %}
-<div class="card text-white bg-success m-3" style="max-width: 50%;">
+<div class="card text-white bg-success m-3" style="max-width: 68rem;">
   <div class="card-header">На счетах есть деньги</div>
     <div class="card-body">
         <h5 class="card-title">Суммарно денег на счетах: {{request.user.in_stock_total|floatformat:2}} руб.</h5>

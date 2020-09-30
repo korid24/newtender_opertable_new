@@ -59,6 +59,6 @@ urlpatterns = [
         name='internal_transaction_details_url'),
     path(
         route='statistic/',
-        view=views.Statistic.as_view(),
+        view=views.StatisticView.as_view(),
         name='statistic_url')
 ]

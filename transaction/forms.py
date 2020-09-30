@@ -1,5 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from users.models import User
 from .models import Transaction, InternalTransaction
 
 
@@ -98,3 +99,31 @@ class InternalTransactionForm(forms.ModelForm):
                     'type': 'date', 'class': 'form-control'},
                 format='%Y-%m-%d'),
         }
+
+
+class StatisticForm(forms.Form):
+    '''
+    Form for receiving data required for generating statistics
+    '''
+    user = forms.ModelChoiceField(
+        label='Пользователь:',
+        queryset=User.objects.all(),
+        widget=forms.Select(attrs={'class': 'form-control mx-1'}))
+    begin_date = forms.DateField(
+        label='Начало периода:',
+        widget=forms.DateInput(
+            attrs={'type': 'date', 'class': 'form-control mx-1'},
+            format='%Y-%m-%d'))
+    end_date = forms.DateField(
+        label='Конец периода:',
+        widget=forms.DateInput(
+            attrs={'type': 'date', 'class': 'form-control mx-1'},
+            format='%Y-%m-%d'))
+
+    def clean_end_date(self):
+        current_end_date = self.cleaned_data['end_date']
+        current_begin_date = self.cleaned_data['begin_date']
+        if current_begin_date > current_end_date:
+            raise ValidationError(
+                'Конец периода не может быть раньше его начала')
+        return current_end_date

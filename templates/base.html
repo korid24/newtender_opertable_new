@@ -20,7 +20,7 @@
         <div class="navbar-nav">
           <a class="nav-item nav-link {% if 'external' in request.path %}active{% endif %}" href={%url 'external_transaction_dashboard_url'%}>Внешние операции</a>
           <a class="nav-item nav-link {% if 'internal' in request.path %}active{% endif %}" href={%url 'internal_transaction_dashboard_url'%}>Внутренние переводы</a>
-          <a class="nav-item nav-link" href={%url 'statistic_url'%}>Статистика</a></div>
+          <a class="nav-item nav-link {% if 'statistic' in request.path %}active{% endif %}" href={%url 'statistic_url'%}>Статистика</a></div>
       </div>
       <a class="btn btn-outline-dark" href="{% url 'logout' %}">Выйти</a>
       {% endif %}

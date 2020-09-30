@@ -4,5 +4,50 @@
 
 
 {% block content %}
-{{info}}
+<form class="form-inline d-flex ml-3" action="{% url 'statistic_url' %}" method="post">
+  {% csrf_token %}
+  {% for field in form %}
+  <div class="form-group">
+    <label for={{field.id_for_label}}>{{ field.label }}</label>
+
+    {% if field.errors%}
+    <div class="alert alert-danger p-0 m-0">
+      {{ field.errors }}
+    </div>
+    {% endif %}
+
+    {{ field }}
+  </div>
+  {% endfor %}
+  <button type="sumbit" class="btn btn-info ml-2">Показать статистику</button>
+</form>
+{% if statistic %}
+<div class="card text-white bg-info mt-3 mx-3" style="max-width: 68rem;">
+  <div class="card-header">Статистика по пользователю {{statistic.user}} за период c {{statistic.date_range.0}} по {{statistic.date_range.1}}</div>
+  <div class="card-body">
+    <h5 class="card-title">Внутренние переводы</h5>
+    <p class="card-text">
+      {% for type, sum in statistic.get_internal_transactions_sums_by_types.items %}
+        {{type}} : {{sum|floatformat:2}} руб.<br>
+      {% endfor %}
+    </p><br>
+    <h5 class="card-title">Внешние операции</h5>
+    <p class="card-text">
+      {% for type, sum in statistic.get_external_transactions_sums_by_types.items %}
+        {{type}} : {{sum|floatformat:2}} руб.<br>
+      {% endfor %}
+    </p><br>
+    <h5 class="card-title">Выводы через карту по банкам</h5>
+    <p class="card-text">
+      {% if statistic.get_card_withdrawals_by_banks %}
+        {% for item in statistic.get_card_withdrawals_by_banks %}
+          {{item.bank}} : {{item.sum|floatformat:2}} руб.<br>
+        {% endfor %}
+      {% else %}
+        Выводов не было
+      {% endif %}
+    </p>
+  </div>
+</div>
+{% endif %}
 {% endblock %}

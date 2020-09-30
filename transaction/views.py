@@ -1,10 +1,13 @@
+from datetime import timedelta
 from django.views.generic import (View, ListView, DetailView, CreateView,
                                   UpdateView, DeleteView)
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from .forms import TransactionForm, InternalTransactionForm
+from django.utils import timezone
+from .forms import TransactionForm, InternalTransactionForm, StatisticForm
 from .models import Transaction, InternalTransaction
+from .services.statistic import Statistic
 
 
 # External transactions views
@@ -96,7 +99,26 @@ class InternalTransactionDelete(LoginRequiredMixin, DeleteView):
     pk_url_kwarg = 'id'
 
 
-class Statistic(LoginRequiredMixin, View):
+class StatisticView(LoginRequiredMixin, View):
+    '''
+    Collects data to generate statistics and shows it to the user
+    '''
     def get(self, request):
+        context = {
+            'form': StatisticForm(initial={
+                'user': request.user,
+                'begin_date': timezone.now() - timedelta(days=31),
+                'end_date': timezone.now()
+            })
+            }
         return render(
-            request, 'statistic.html', context={'info': 'В разработке'})
+            request, 'statistic.html', context=context)
+
+    def post(self, request):
+        bound_form = StatisticForm(data=request.POST)
+        context = {
+            'form': bound_form
+        }
+        if bound_form.is_valid():
+            context['statistic'] = Statistic(**bound_form.cleaned_data)
+        return render(request, 'statistic.html', context=context)
