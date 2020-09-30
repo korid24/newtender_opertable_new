@@ -9,7 +9,7 @@
   {% endif %}
   {% for transaction in transactions %}
     {% if transaction.transaction_type < 3 %}
-      <div class="card border-primary mt-3 mx-3 w-75">
+      <div class="card border-primary mt-3 mx-3" style="max-width: 90rem;">
         <div class="card-header bg-primary border-primary d-flex justify-content-between text-light">
           <div class="d-flex flex-column justify-content-center">
             Поступление
@@ -38,7 +38,7 @@
       </div>
     {% else %}
 
-      <div class="card border-secondary mt-3 mx-3 w-75">
+      <div class="card border-secondary mt-3 mx-3" style="max-width: 90rem;">
         <div class="card-header bg-secondary border-secondary d-flex justify-content-between text-light">
           <div class="d-flex flex-column justify-content-center">
             Вывод
