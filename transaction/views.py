@@ -108,8 +108,7 @@ class StatisticView(LoginRequiredMixin, View):
             'form': StatisticForm(initial={
                 'user': request.user,
                 'begin_date': timezone.now() - timedelta(days=31),
-                'end_date': timezone.now()
-            })
+                'end_date': timezone.now()})
             }
         return render(
             request, 'statistic.html', context=context)
